@@ -1,17 +1,21 @@
 import { Box, FormControl, InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
 
-import { commonStyles, darkTheme } from "../Styles";
+import { commonStyles, theme } from "../Styles";
 import { CardPanel } from "./CardPanel";
 import { LoadingCard } from "./LoadingCard";
 
 const useStyles = makeStyles({
   formControl: {
     margin: "10px",
-    color: darkTheme.color,
+    color: theme.fonts.color,
   },
   totalExpenses: {
     marginLeft: "0.50rem",
     fontWeight: 800,
+  },
+  categoryBox: {
+    width: "200px",
+    color: theme.fonts.color,
   },
 });
 
@@ -20,19 +24,25 @@ type props = {
   selectedYear: string | null;
   selectedMonth: string | null;
   months: string[];
+  categories: string[];
+  selectedCategory: string | null;
   totalExpenses: string;
   onYearChange: (year: string) => void;
   onMonthChange: (year: string) => void;
+  onCategoryChange: (category: string) => void;
 };
 
 export function FilterBox({
   years,
   selectedYear,
-  months,
+  months = [],
   selectedMonth,
+  categories = [],
+  selectedCategory,
   totalExpenses,
   onYearChange,
   onMonthChange,
+  onCategoryChange,
 }: props) {
   const classes = useStyles();
   const css = commonStyles();
@@ -42,10 +52,24 @@ export function FilterBox({
   }
 
   function handleMonthChange(event: any) {
-    onMonthChange(event.target.value);
+    const { value } = event.target;
+    console.log(value);
+    onMonthChange(value);
   }
 
-  if (years.length === 0 || months.length === 0 || !selectedYear || !selectedMonth) {
+  function handleCategoryChange(event: any) {
+    const { value } = event.target;
+    onCategoryChange(value);
+  }
+
+  if (
+    years.length === 0 ||
+    months.length === 0 ||
+    categories.length === 0 ||
+    !selectedYear ||
+    !selectedMonth ||
+    !selectedCategory
+  ) {
     return <LoadingCard />;
   }
 
@@ -82,6 +106,23 @@ export function FilterBox({
             {months.map((month, idx) => (
               <MenuItem key={idx} value={month}>
                 {month}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel className={css.fonts} id="select-category">
+            Categorias
+          </InputLabel>
+          <Select
+            className={classes.categoryBox}
+            labelId="select-category"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            {categories.map((category, idx) => (
+              <MenuItem key={idx} value={category}>
+                {category}
               </MenuItem>
             ))}
           </Select>

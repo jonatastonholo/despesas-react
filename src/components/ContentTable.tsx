@@ -8,9 +8,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import { Despesa } from "../domain/Despesa";
-import { darkTheme } from "../Styles";
-import { toCurrency } from "../helpers/Utils";
+import { IDespesa } from "../domain/IDespesa";
+import { theme } from "../Styles";
+import { toCurrency } from "../helpers/utils";
 
 interface Column {
   id: "descricao" | "categoria" | "dia" | "valor";
@@ -43,27 +43,27 @@ const background = "#2B2B2C";
 const useStyles = makeStyles({
   root: {
     width: "100%",
-    background: darkTheme.background,
+    background: theme.background,
   },
   container: {
     maxHeight: 600,
   },
   tableHeader: {
     background,
-    color: darkTheme.color,
+    color: theme.fonts.color,
     fontWeight: 800,
   },
   tableContent: {
-    color: darkTheme.color,
+    color: theme.fonts.color,
   },
   tableFooter: {
     background,
-    color: darkTheme.color,
+    color: theme.fonts.color,
   },
 });
 
 type props = {
-  despesas: Despesa[];
+  despesas: IDespesa[];
 };
 
 export default function ContentTable({ despesas }: props) {

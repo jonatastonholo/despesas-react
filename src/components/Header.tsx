@@ -1,7 +1,9 @@
 // @flow
 import * as React from "react";
 import { Card, makeStyles, Typography } from "@material-ui/core";
-import { darkTheme } from "../Styles";
+import { theme } from "../Styles";
+import Box from "@material-ui/core/Box";
+import { UserMenu } from "./UserMenu";
 
 type Props = {
   title: string;
@@ -17,7 +19,13 @@ const useStyles = makeStyles({
     padding: "0.25rem",
     marginTop: "25px",
     textAlign: "center",
-    color: darkTheme.color,
+    color: theme.fonts.color,
+  },
+  content: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "0.50rem",
+    textAlign: "center",
   },
 });
 
@@ -26,7 +34,14 @@ export function Header({ title }: Props) {
   return (
     <Card className={classes.header}>
       <Typography variant="h5" component="h2">
-        {title}
+        <Box className={classes.content}>
+          <Box flex="1" padding="1rem" marginLeft="12px">
+            {title}
+          </Box>
+          <Box>
+            <UserMenu />
+          </Box>
+        </Box>
       </Typography>
     </Card>
   );
