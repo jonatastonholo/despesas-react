@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { IDespesa } from "../domain/IDespesa";
 import { listDespesas } from "../services/despesaService";
 import { Container } from "@material-ui/core";
@@ -9,14 +10,14 @@ import { toReal } from "../helpers/utils";
 
 const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
-export default function MainPage() {
-  // const { yearMonth } = useParams<{ yearMonth: string }>();
-  // const initialMonthIdx = parseInt(yearMonth.split('-')[1]) -1;
+export default function DashboardPage() {
+  const { yearMonth } = useParams<{ yearMonth: string }>();
+  const [initialYear, initialMonthIdx] = yearMonth.split('-');
   const [despesas, setDespesas] = useState<IDespesa[] | []>([]);
   const [despesasFiltered, setDespesasFilter] = useState<IDespesa[] | []>([]);
-  const [selectedYear, setSelectedYear] = useState<string | null>(null);
-  const [selectedMonth, setSelectedMonth] = useState<string>(months[0]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedYear, setSelectedYear] = useState<string>(initialYear);
+  const [selectedMonth, setSelectedMonth] = useState<string>(months[parseInt(initialMonthIdx)]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("Todas");
   const [categories, setCategories] = useState<string[]>([]);
   const [years, setYears] = useState<string[] | []>([]);
 
@@ -41,7 +42,6 @@ export default function MainPage() {
       }
     }
 
-    setSelectedYear(yearsList[0]);
     setYears(yearsList);
     setCategories(categoriesList);
     setSelectedCategory(categoriesList[0])
